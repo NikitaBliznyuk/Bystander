@@ -10,9 +10,20 @@ public class RotationTest : MonoBehaviour {
 
     private float rotationY = 0.0f;
 
-	void Update () {
+    private void OnEnable()
+    {
+        Cursor.visible = false;
+    }
+
+    private void OnDisable()
+    {
+        Cursor.visible = true;
+    }
+
+    private void Update()
+    {
         Rotate();
-	}
+    }
 
     private void Rotate()
     {

@@ -5,28 +5,57 @@ using UnityEngine;
 namespace Code {
     public class CodeCheck : MonoBehaviour
     {
-        private readonly string code = "1234567";
+        public bool Solved { get; private set; }
+
+        private readonly Numbers[] code =
+        {
+            Numbers.One,
+            Numbers.Two,
+            Numbers.Three,
+            Numbers.Four,
+            Numbers.Five,
+            Numbers.Six,
+            Numbers.Seven
+        };
+
+        private void Start()
+        {
+            Solved = false;
+        }
 
         private void Update()
         {
-            if(code == GetCode())
-            {
-                Debug.Log("Correct");
-            }
+            if(!Solved)
+                CheckEnteredCode(GetCode());
         }
 
-        private string GetCode()
+        private Numbers[] GetCode()
         {
-            var objects = gameObject.GetComponentsInChildren<Rotation>();
+            var children = gameObject.GetComponentsInChildren<Rotation>();
             
-            string result = "";
+            Numbers[] result = new Numbers[children.Length];
 
-            foreach (var child in objects)
+            for (int i = 0; i < children.Length; i++)
             {
-                result += child.Number;
+                result[i] = children[i].Number;
             }
 
             return result;
+        }
+
+        private void CheckEnteredCode(Numbers[] enteredCode)
+        {
+            for (int i = 0; i < enteredCode.Length; i++)
+            {
+                if (code[i] != enteredCode[i])
+                {
+                    return;
+                }
+            }
+
+            Debug.Log("Right!");
+
+            Solved = true;
         }
     }
 }
