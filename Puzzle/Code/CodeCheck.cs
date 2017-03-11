@@ -9,13 +9,13 @@ namespace Code {
 
         private readonly Numbers[] code =
         {
-            Numbers.One,
+            Numbers.Zero,
+            Numbers.Eight,
+            Numbers.Seven,
             Numbers.Two,
             Numbers.Three,
-            Numbers.Four,
-            Numbers.Five,
             Numbers.Six,
-            Numbers.Seven
+            Numbers.Nine
         };
 
         private void Start()
