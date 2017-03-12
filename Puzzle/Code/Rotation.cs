@@ -47,7 +47,8 @@ namespace Code
             if (!inRotation)
             {
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
+                RaycastHit hit; 
+                  
                 if (Physics.Raycast(ray, out hit, 300))
                 {
                     if (hit.collider.gameObject == gameObject && !inRotation)
