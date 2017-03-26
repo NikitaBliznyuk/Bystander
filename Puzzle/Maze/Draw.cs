@@ -25,10 +25,10 @@ public class Draw : MonoBehaviour {
         // Line to left
         if (startPoint.x - endPoint.x > 0)
         {
-            points.Add(new Vector3(startPoint.x + width / 2.0f, startPoint.y + width / 2.0f, startPoint.z));
-            points.Add(new Vector3(startPoint.x + width / 2.0f, startPoint.y - width / 2.0f, startPoint.z));
             points.Add(new Vector3(endPoint.x - width / 2.0f, endPoint.y + width / 2.0f, endPoint.z));
             points.Add(new Vector3(endPoint.x - width / 2.0f, endPoint.y - width / 2.0f, endPoint.z));
+            points.Add(new Vector3(startPoint.x + width / 2.0f, startPoint.y + width / 2.0f, startPoint.z));
+            points.Add(new Vector3(startPoint.x + width / 2.0f, startPoint.y - width / 2.0f, startPoint.z));
         }
         // Line to right
         else if (startPoint.x - endPoint.x < 0)
@@ -49,14 +49,14 @@ public class Draw : MonoBehaviour {
         //Line to down
         else if (startPoint.y - endPoint.y > 0)
         {
-            points.Add(new Vector3(startPoint.x - width / 2.0f, startPoint.y + width / 2.0f, startPoint.z));
-            points.Add(new Vector3(startPoint.x + width / 2.0f, startPoint.y + width / 2.0f, startPoint.z));
             points.Add(new Vector3(endPoint.x - width / 2.0f, endPoint.y - width / 2.0f, endPoint.z));
             points.Add(new Vector3(endPoint.x + width / 2.0f, endPoint.y - width / 2.0f, endPoint.z));
+            points.Add(new Vector3(startPoint.x - width / 2.0f, startPoint.y + width / 2.0f, startPoint.z));
+            points.Add(new Vector3(startPoint.x + width / 2.0f, startPoint.y + width / 2.0f, startPoint.z));
         }
         var newTriangles = new List<int> {
-            baseIndex, baseIndex + 1, baseIndex + 2,
-            baseIndex + 3, baseIndex + 2, baseIndex + 1 };
+            baseIndex + 2, baseIndex + 1, baseIndex + 0,
+            baseIndex + 1, baseIndex + 2, baseIndex + 3 };
         triangles.AddRange(newTriangles);
 
         ToDraw();
@@ -64,12 +64,12 @@ public class Draw : MonoBehaviour {
 
     private void ToDraw()
     {
-        var mesh = new Mesh();
-        mesh.vertices = points.ToArray();
-        mesh.triangles = triangles.ToArray();
-        mesh.RecalculateBounds();
-        mesh.RecalculateNormals();
-
+        var mesh = new Mesh()
+        {
+            vertices = points.ToArray(),
+            triangles = triangles.ToArray()
+        };
+        
         filter.mesh = mesh;
         meshRenderer.material = lineMaterial;
     }
