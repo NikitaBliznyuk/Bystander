@@ -74,4 +74,12 @@ public class Draw : MonoBehaviour
         filter.mesh = mesh;
         meshRenderer.material = lineMaterial;
     }
+
+    public void Clear()
+    {
+        points.Clear();
+        triangles.Clear();
+
+        ToDraw();
+    }
 }
