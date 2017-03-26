@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Draw : MonoBehaviour {
+    public Material lineMaterial;
+
     private List<Vector3> points;
     private List<int> triangles;
     private float width = 0.5f;
@@ -11,6 +13,8 @@ public class Draw : MonoBehaviour {
 
     private void Start()
     {
+        points = new List<Vector3>();
+        triangles = new List<int>();
         filter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
     }
@@ -26,9 +30,33 @@ public class Draw : MonoBehaviour {
             points.Add(new Vector3(endPoint.x - width / 2.0f, endPoint.y + width / 2.0f, endPoint.z));
             points.Add(new Vector3(endPoint.x - width / 2.0f, endPoint.y - width / 2.0f, endPoint.z));
         }
+        // Line to right
+        else if (startPoint.x - endPoint.x < 0)
+        {
+            points.Add(new Vector3(startPoint.x - width / 2.0f, startPoint.y + width / 2.0f, startPoint.z));
+            points.Add(new Vector3(startPoint.x - width / 2.0f, startPoint.y - width / 2.0f, startPoint.z));
+            points.Add(new Vector3(endPoint.x + width / 2.0f, endPoint.y + width / 2.0f, endPoint.z));
+            points.Add(new Vector3(endPoint.x + width / 2.0f, endPoint.y - width / 2.0f, endPoint.z)); 
+        }
+        //Line to up
+        else if (startPoint.y - endPoint.y < 0)
+        {
+            points.Add(new Vector3(startPoint.x - width / 2.0f, startPoint.y - width / 2.0f, startPoint.z));
+            points.Add(new Vector3(startPoint.x + width / 2.0f, startPoint.y - width / 2.0f, startPoint.z));
+            points.Add(new Vector3(endPoint.x - width / 2.0f, endPoint.y + width / 2.0f, endPoint.z));
+            points.Add(new Vector3(endPoint.x + width / 2.0f, endPoint.y + width / 2.0f, endPoint.z));
+        }
+        //Line to down
+        else if (startPoint.y - endPoint.y > 0)
+        {
+            points.Add(new Vector3(startPoint.x - width / 2.0f, startPoint.y + width / 2.0f, startPoint.z));
+            points.Add(new Vector3(startPoint.x + width / 2.0f, startPoint.y + width / 2.0f, startPoint.z));
+            points.Add(new Vector3(endPoint.x - width / 2.0f, endPoint.y - width / 2.0f, endPoint.z));
+            points.Add(new Vector3(endPoint.x + width / 2.0f, endPoint.y - width / 2.0f, endPoint.z));
+        }
         var newTriangles = new List<int> {
             baseIndex, baseIndex + 1, baseIndex + 2,
-            baseIndex + 1, baseIndex + 2, baseIndex + 3 };
+            baseIndex + 3, baseIndex + 2, baseIndex + 1 };
         triangles.AddRange(newTriangles);
 
         ToDraw();
@@ -41,6 +69,8 @@ public class Draw : MonoBehaviour {
         mesh.triangles = triangles.ToArray();
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
+
         filter.mesh = mesh;
+        meshRenderer.material = lineMaterial;
     }
 }
