@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Draw : MonoBehaviour {
+public class Draw : MonoBehaviour
+{
     public Material lineMaterial;
 
     private List<Vector3> points;
@@ -11,7 +12,7 @@ public class Draw : MonoBehaviour {
     private MeshFilter filter;
     private MeshRenderer meshRenderer;
 
-    private void Start()
+    public void Start()
     {
         points = new List<Vector3>();
         triangles = new List<int>();
