@@ -2,25 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Bolts
+namespace Lights
 {
     public class Movement : MonoBehaviour
     {
-        public Transform rightBoard;
-        public Transform leftBoard;
-        public Transform staticRightBoard;
-        public Transform staticLeftBoard;
-        public Transform[] items;
+        public Transform startPosition;
 
         private Vector3 screenSpace;
         private Vector3 offset;
-        private float boardOffset;
-        private readonly float boardStep = 0.63f;
+
+        private readonly float jumpSize = 0.3f;
+
         private bool isGrab = false;
+
+        private LightController controller;
 
         private void Start()
         {
-            boardOffset = rightBoard.localPosition.x - transform.localPosition.x;
+            controller = GetComponent<LightController>();
         }
 
         private void Update()
@@ -31,13 +30,19 @@ namespace Bolts
 
         private void CheckInput()
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButtonUp(0) && isGrab)
+            {
+                transform.localPosition += new Vector3(0.0f, 0.0f, jumpSize);
+                isGrab = false;
+            }
+
+            if (Input.GetMouseButtonDown(0))
             {
                 if (!isGrab)
                 {
                     var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit hit;
-                    if (Physics.Raycast(ray, out hit, 300))
+                    if (Physics.Raycast(ray, out hit, 300, LayerMask.GetMask("Level 1")))
                     {
                         if (hit.collider.gameObject == gameObject)
                         {
@@ -45,13 +50,11 @@ namespace Bolts
                             offset = transform.localPosition -
                                 Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenSpace.z));
                             isGrab = true;
+
+                            controller.TurnLight(false);
                         }
                     }
                 }
-            }
-            else
-            {
-                isGrab = false;
             }
         }
 
@@ -62,25 +65,17 @@ namespace Bolts
                 var currentScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenSpace.z);
                 var currentPosition = Camera.main.ScreenToWorldPoint(currentScreenSpace) + offset;
 
-                var rightBoardValue = GetBoard();
+                currentPosition.z -= jumpSize;
 
-                currentPosition.x = Mathf.Clamp(currentPosition.x, staticLeftBoard.localPosition.x + boardOffset, rightBoardValue - boardOffset);
-                transform.localPosition = new Vector3(currentPosition.x, transform.localPosition.y, transform.localPosition.z);
+                transform.localPosition = currentPosition;
             }
-        }
-
-        private float GetBoard()
-        {
-            var board = staticRightBoard.position.x;
-            for(int i=0;i<items.Length;i++)
+            else
             {
-                if (items[i].GetComponent<Rotation>().rotated)
+                if(!controller.IsPlaced)
                 {
-                    board += boardStep;
+                    transform.position = startPosition.position;
                 }
-                else break;
             }
-            return board;
         }
     }
 }

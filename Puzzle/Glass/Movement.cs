@@ -9,10 +9,6 @@ public class Movement : MonoBehaviour
 
     private bool isGrab = false;
 
-    private void Start()
-    {
-    }
-
     private void Update()
     {
         CheckInput();
@@ -31,8 +27,8 @@ public class Movement : MonoBehaviour
                 {
                     if (hit.collider.gameObject == gameObject)
                     {
-                        screenSpace = Camera.main.WorldToScreenPoint(transform.position);
-                        offset = transform.position -
+                        screenSpace = Camera.main.WorldToScreenPoint(transform.localPosition);
+                        offset = transform.localPosition -
                             Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenSpace.z));
                         isGrab = true;
                     }
@@ -52,7 +48,7 @@ public class Movement : MonoBehaviour
             var currentScreenSpace = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenSpace.z);
             var currentPosition = Camera.main.ScreenToWorldPoint(currentScreenSpace) + offset;
 
-            transform.position = currentPosition;
+            transform.localPosition = new Vector3(currentPosition.x, currentPosition.y, 0.0f);
         }
     }
 }

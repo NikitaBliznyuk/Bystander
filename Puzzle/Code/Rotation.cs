@@ -11,7 +11,6 @@ namespace Code
 
         private float speed;
 
-        private float startAngle;
         private float endAngle;
 
         private bool inRotation;
@@ -22,7 +21,6 @@ namespace Code
 
         private void Start()
         {
-            startAngle = 0.0f;
             endAngle = Mathf.Round(transform.rotation.eulerAngles.z);
 
             Number = (Numbers)(endAngle / rotationAngle + 5);
@@ -46,57 +44,66 @@ namespace Code
         {
             if (!inRotation)
             {
+                CheckInput();
+            }
+            else
+            {
+                SmoothRotate();
+            }
+        }
+
+        private void CheckInput()
+        {
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+            {
+                if (Input.GetMouseButtonDown(0))
+                    sign = 1;
+                else if (Input.GetMouseButtonDown(1))
+                    sign = -1;
+                else
+                    return;
+
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit; 
-                  
+                RaycastHit hit;
+
                 if (Physics.Raycast(ray, out hit, 300))
                 {
                     if (hit.collider.gameObject == gameObject && !inRotation)
                     {
-                        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
-                        {
-                            if (Input.GetMouseButtonDown(0))
-                                sign = 1;
-                            else if (Input.GetMouseButtonDown(1))
-                                sign = -1;
-                            else
-                                return;
+                        endAngle = transform.rotation.eulerAngles.z + rotationAngle * sign;
 
-                            endAngle += rotationAngle * sign;
+                        inRotation = true;
 
-                            inRotation = true;
-
-                            if (endAngle > 360.0f)
-                                endAngle -= 360.0f;
-                            else if (endAngle < 0.0f)
-                                endAngle += 360.0f;
-                        }
+                        if (endAngle > 360.0f)
+                            endAngle -= 360.0f;
+                        else if (endAngle < 0.0f)
+                            endAngle += 360.0f;
                     }
                 }
             }
-            else
+        }
+
+        private void SmoothRotate()
+        {
+            float rotation = transform.rotation.eulerAngles.z;
+
+            float angle = Mathf.LerpAngle(0, rotationAngle, Time.deltaTime * speed);
+
+            angle = Mathf.Clamp(angle, 0, Mathf.Abs(endAngle - rotation));
+
+            transform.Rotate(0.0f, 0.0f, angle * sign);
+
+            if ((int)Mathf.Abs(rotation + angle - endAngle) == 0)
             {
-                float rotation = transform.rotation.eulerAngles.z;
+                inRotation = false;
 
-                if (Mathf.Abs(endAngle - rotation) > (speed / 2.0f))
-                {
-                    float angle = Mathf.LerpAngle(startAngle, startAngle + rotationAngle, Time.deltaTime * speed);
-
-                    transform.Rotate(0.0f, 0.0f, angle * sign);
-                }
-                else
-                {
-                    startAngle = 0.0f;
-                    inRotation = false;
-                    transform.Rotate(0.0f, 0.0f, endAngle - rotation);
-
-                    Number += sign;
-                    if (Number > Numbers.Nine)
-                        Number = Numbers.Zero;
-                    else if (Number < Numbers.Zero)
-                        Number = Numbers.Nine;
-                }
+                Number += sign;
+                if (Number > Numbers.Nine)
+                    Number = Numbers.Zero;
+                else if (Number < Numbers.Zero)
+                    Number = Numbers.Nine;
             }
+
         }
     }
 }

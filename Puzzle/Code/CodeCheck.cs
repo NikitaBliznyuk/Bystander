@@ -7,7 +7,7 @@ namespace Code {
     {
         public bool Solved { get; private set; }
 
-        private readonly Numbers[] code =
+        public readonly Numbers[] code =
         {
             Numbers.Zero,
             Numbers.Eight,
