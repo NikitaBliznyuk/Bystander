@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
+    public bool IsSolved { get { return solved; } }
+
     private GameObject startPoint = null;
     private GameObject currentPoint = null;
     private Draw brush;
@@ -28,27 +30,7 @@ public class Controller : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 300))
             {
-                var point = hit.collider.gameObject;
-                if (point.tag == "Start Point" && currentPoint == null)
-                {
-                    startPoint = hit.collider.gameObject;
-                    currentPoint = startPoint;
-                    hit.collider.gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                }
-                else if (point.tag == "Point" || point.tag == "End Point")
-                {
-                    if (point.GetComponent<Point>().IsNeighbour(currentPoint))
-                    {
-                        brush.AddLine(currentPoint.transform.localPosition, point.transform.localPosition);
-                        currentPoint = point;
-                    }
-
-                    if(point.tag == "End Point")
-                    {
-                        Debug.Log("Congratz!");
-                        solved = true;
-                    }
-                }
+                HandlePoint(hit.collider.gameObject);
             }
         }
         else if(Input.GetMouseButtonDown(1))
@@ -59,6 +41,30 @@ public class Controller : MonoBehaviour
             currentPoint = null;
 
             solved = false;
+        }
+    }
+
+    public void HandlePoint(GameObject point)
+    {
+        if (point.tag == "Start Point" && currentPoint == null)
+        {
+            startPoint = point;
+            currentPoint = startPoint;
+            point.transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else if (point.tag == "Point" || point.tag == "End Point")
+        {
+            if (point.GetComponent<Point>().IsNeighbour(currentPoint))
+            {
+                brush.AddLine(currentPoint.transform.localPosition, point.transform.localPosition);
+                currentPoint = point;
+            }
+
+            if (point.tag == "End Point")
+            {
+                Debug.Log("Congratz!");
+                solved = true;
+            }
         }
     }
 }
