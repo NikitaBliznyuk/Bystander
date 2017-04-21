@@ -9,15 +9,17 @@ public class Controller : MonoBehaviour
     private GameObject startPoint = null;
     private GameObject currentPoint = null;
     private Draw brush;
+    private List<Point> pathOfPoints;
 
     private bool solved = false;
 
     private void Start()
     {
         brush = GetComponent<Draw>();
+        pathOfPoints = new List<Point>();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         GetInput();
     }
@@ -33,14 +35,9 @@ public class Controller : MonoBehaviour
                 HandlePoint(hit.collider.gameObject);
             }
         }
-        else if(Input.GetMouseButtonDown(1))
+        else if(!solved && Input.GetMouseButtonDown(1))
         {
-            brush.Clear();
-            startPoint.transform.GetChild(0).gameObject.SetActive(false);
-            startPoint = null;
-            currentPoint = null;
-
-            solved = false;
+            ResetPuzzle();
         }
     }
 
@@ -48,6 +45,9 @@ public class Controller : MonoBehaviour
     {
         if (point.tag == "Start Point" && currentPoint == null)
         {
+            pathOfPoints.Add(point.GetComponent<Point>());
+            point.GetComponent<Point>().IsBusy = true;
+
             startPoint = point;
             currentPoint = startPoint;
             point.transform.GetChild(0).gameObject.SetActive(true);
@@ -56,15 +56,32 @@ public class Controller : MonoBehaviour
         {
             if (point.GetComponent<Point>().IsNeighbour(currentPoint))
             {
+                pathOfPoints.Add(point.GetComponent<Point>());
                 brush.AddLine(currentPoint.transform.localPosition, point.transform.localPosition);
                 currentPoint = point;
-            }
 
-            if (point.tag == "End Point")
-            {
-                Debug.Log("Congratz!");
-                solved = true;
+                if (point.tag == "End Point")
+                {
+                    Debug.Log("Congratz!");
+                    solved = true;
+                }
             }
         }
+    }
+
+    private void ResetPuzzle()
+    {
+        brush.Clear();
+
+        foreach (var point in pathOfPoints)
+            point.IsBusy = false;
+        pathOfPoints.Clear();
+
+        if(startPoint != null)
+            startPoint.transform.GetChild(0).gameObject.SetActive(false);
+        startPoint = null;
+        currentPoint = null;
+
+        solved = false;
     }
 }
