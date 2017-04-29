@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Controller : MonoBehaviour, ISolved
+public class Controller : BaseController
 {
     private GameObject startPoint = null;
     private GameObject currentPoint = null;
     private Draw brush;
     private List<Point> pathOfPoints;
-
-    private bool solved = false;
 
     private void Start()
     {
@@ -25,7 +23,7 @@ public class Controller : MonoBehaviour, ISolved
 
     private void GetInput()
     {
-        if (Input.GetMouseButtonDown(0) && !solved)
+        if (Input.GetMouseButtonDown(0) && !isSolved)
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -34,7 +32,7 @@ public class Controller : MonoBehaviour, ISolved
                 HandlePoint(hit.collider.gameObject);
             }
         }
-        else if(!solved && Input.GetMouseButtonDown(1))
+        else if(!isSolved && Input.GetMouseButtonDown(1))
         {
             ResetPuzzle();
         }
@@ -62,7 +60,7 @@ public class Controller : MonoBehaviour, ISolved
                 if (point.tag == "End Point")
                 {
                     Debug.Log("Congratz!");
-                    solved = true;
+                    isSolved = true;
                 }
             }
         }
@@ -81,11 +79,6 @@ public class Controller : MonoBehaviour, ISolved
         startPoint = null;
         currentPoint = null;
 
-        solved = false;
-    }
-
-    bool ISolved.IsSolved()
-    {
-        return solved;
+        isSolved = false;
     }
 }

@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class PuzzleEnabler : MonoBehaviour
 {
-    public Controller PreviousPuzzle;
+    public BaseController PreviousPuzzle;
     public GameObject puzzle;
+
+    private ISolved previousPuzzle;
+
+    private void Start()
+    {
+        previousPuzzle = PreviousPuzzle;
+    }
 
     private void Update()
     {
-        if (PreviousPuzzle == null || ((ISolved)PreviousPuzzle).IsSolved())
+        if (PreviousPuzzle == null || previousPuzzle.IsSolved())
         {
             puzzle.SetActive(true);
         }
