@@ -11,8 +11,7 @@ public class CameraMotor : MonoBehaviour
 
     public void Init()
     {
-        CameraContainer = new GameObject("Camera Container").transform;
-        CameraContainer.gameObject.AddComponent<Camera>();
+        CameraContainer = Camera.main.transform;
 
         state = gameObject.AddComponent<FirstPersonCamera>() as BaseCameraState;
         state.Construct();
