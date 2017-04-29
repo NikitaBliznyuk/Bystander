@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PuzzleEnabler : MonoBehaviour
 {
-    public Controller previousPuzzle;
+    public ISolved previousPuzzle;
 
     private void Update()
     {
-        if (previousPuzzle == null || previousPuzzle.IsSolved)
+        if (previousPuzzle == null || previousPuzzle.IsSolved())
         {
             GetComponent<Controller>().enabled = true;
             GetComponent<Draw>().enabled = true;

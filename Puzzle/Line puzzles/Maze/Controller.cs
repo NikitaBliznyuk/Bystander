@@ -1,11 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Controller : MonoBehaviour
+public class Controller : MonoBehaviour, ISolved
 {
-    public bool IsSolved { get { return solved; } }
-
     private GameObject startPoint = null;
     private GameObject currentPoint = null;
     private Draw brush;
@@ -83,5 +82,10 @@ public class Controller : MonoBehaviour
         currentPoint = null;
 
         solved = false;
+    }
+
+    bool ISolved.IsSolved()
+    {
+        return solved;
     }
 }
