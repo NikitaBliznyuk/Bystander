@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class PuzzleEnabler : MonoBehaviour
 {
-    public ISolved previousPuzzle;
+    public Controller PreviousPuzzle;
+    public GameObject puzzle;
 
     private void Update()
     {
-        if (previousPuzzle == null || previousPuzzle.IsSolved())
+        if (PreviousPuzzle == null || ((ISolved)PreviousPuzzle).IsSolved())
         {
-            GetComponent<Controller>().enabled = true;
-            GetComponent<Draw>().enabled = true;
-            transform.GetChild(1).gameObject.SetActive(true);
+            puzzle.SetActive(true);
         }
     }
 }
