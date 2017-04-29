@@ -83,7 +83,7 @@ public abstract class BaseMotor : MonoBehaviour
         return false;
     }
 
-    public void ChangeState(string stateName)
+    public virtual void ChangeState(string stateName)
     {
         System.Type type = System.Type.GetType(stateName);
 

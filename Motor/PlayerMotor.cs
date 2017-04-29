@@ -52,4 +52,11 @@ public class PlayerMotor : BaseMotor
         direction.y = 0.0f;
         return direction.normalized * input.magnitude;
     }
+
+    public override void ChangeState(string stateName)
+    {
+        base.ChangeState(stateName);
+
+        cameraMotor.enabled = stateName != "SolvingState";
+    }
 }

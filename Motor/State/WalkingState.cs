@@ -31,5 +31,8 @@ public class WalkingState : BaseState
     {
         if (!motor.Grounded())
             motor.ChangeState("FallingState");
+
+        if (Input.GetKeyDown(KeyCode.E))
+            motor.ChangeState("SolvingState");
     }
 }
