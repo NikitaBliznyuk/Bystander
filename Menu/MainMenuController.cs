@@ -5,7 +5,7 @@ public class MainMenuController : MonoBehaviour
 {
     public void StartNewGame()
     {
-        SceneManager.LoadScene("Island");
+        SceneManager.LoadScene(2);
     }
 
     public void Exit()

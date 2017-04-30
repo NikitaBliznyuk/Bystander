@@ -13,7 +13,7 @@ namespace Bolts
         {
             if (neighboor == null || !neighboor.GetComponent<Rotation>().rotated)
             {
-                transform.Rotate(0.0f, rotated ? 90.0f : -90.0f, 0.0f);
+                transform.Rotate(0.0f, 0.0f, rotated ? 90.0f : -90.0f);
                 rotated = !rotated;
             }
         }
