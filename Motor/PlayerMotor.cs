@@ -57,6 +57,6 @@ public class PlayerMotor : BaseMotor
     {
         base.ChangeState(stateName);
 
-        cameraMotor.enabled = stateName != "SolvingState";
+        cameraMotor.enabled = stateName != "SolvingState" && stateName != "PauseState";
     }
 }

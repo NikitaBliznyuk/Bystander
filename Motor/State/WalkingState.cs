@@ -34,5 +34,8 @@ public class WalkingState : BaseState
 
         if (Input.GetKeyDown(KeyCode.E))
             motor.ChangeState("SolvingState");
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            motor.ChangeState("PauseState");
     }
 }
