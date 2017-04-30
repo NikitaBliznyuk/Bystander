@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour
 {
-    private bool enabled = false;
+    private bool isEnabled = false;
     private GameObject menu;
 
     private void Start()
@@ -15,10 +15,10 @@ public class PauseMenuController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            enabled = !enabled;
+            isEnabled = !isEnabled;
         }
 
-        menu.SetActive(enabled);
+        menu.SetActive(isEnabled);
     }
 
     public void Exit()

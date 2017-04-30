@@ -14,9 +14,11 @@ public class Controller : BaseController
     {
         brush = GetComponent<Draw>();
         pathOfPoints = new List<Point>();
+
+        Load();
     }
 
-    protected virtual void Update()
+    protected override void Update()
     {
         GetInput();
     }

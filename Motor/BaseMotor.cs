@@ -30,9 +30,25 @@ public abstract class BaseMotor : MonoBehaviour
     {
         controller = gameObject.AddComponent<CharacterController>();
         thisTransform = transform;
+        thisTransform.position = LoadPosition();
 
         state = gameObject.AddComponent<WalkingState>();
         state.Construct();
+    }
+
+    private Vector3 LoadPosition()
+    {
+        var position = thisTransform.position;
+
+        if(PlayerPrefs.HasKey("Player X") && PlayerPrefs.HasKey("Player Y") && PlayerPrefs.HasKey("Player Z"))
+        {
+            position.Set(
+                PlayerPrefs.GetFloat("Player X"),
+                PlayerPrefs.GetFloat("Player Y"),
+                PlayerPrefs.GetFloat("Player Z"));
+        }
+
+        return position;
     }
 
     private void Update()
