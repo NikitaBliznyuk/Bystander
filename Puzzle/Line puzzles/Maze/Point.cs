@@ -24,15 +24,20 @@ public class Point : MonoBehaviour
     private bool isBusy = false;
     private GameObject backlight;
 
-    private void Start()
+    private void Awake()
     {
         backlight = transform.GetChild(0).gameObject;
         IsBusy = false;
     }
 
+    public void TurnBacklight(bool on)
+    {
+        backlight.SetActive(on);
+    }
+
     private void Update()
     {
-        backlight.SetActive(CheckHower() || isBusy);
+        TurnBacklight(CheckHower() || isBusy);
     }
 
     private bool CheckHower()

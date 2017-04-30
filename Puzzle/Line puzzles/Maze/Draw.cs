@@ -6,16 +6,14 @@ public class Draw : MonoBehaviour
 {
     public Material lineMaterial;
 
-    private List<Vector3> points;
-    private List<int> triangles;
+    private List<Vector3> points = new List<Vector3>();
+    private List<int> triangles = new List<int>();
     private float width = 0.5f;
     private MeshFilter filter;
     private MeshRenderer meshRenderer;
-
-    public void Start()
+    
+    private void Awake()
     {
-        points = new List<Vector3>();
-        triangles = new List<int>();
         filter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
     }

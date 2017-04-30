@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Controller : BaseController
 {
+    public Point[] winPath;
+
     private GameObject startPoint = null;
     private GameObject currentPoint = null;
     private Draw brush;
@@ -16,6 +18,26 @@ public class Controller : BaseController
         pathOfPoints = new List<Point>();
 
         Load();
+
+        if(isSolved)
+        {
+            ShowWinPath();
+        }
+    }
+
+    private void ShowWinPath()
+    {
+        var startPoint = winPath[0];
+        startPoint.TurnBacklight(true);
+        startPoint.IsBusy = true;
+
+        for(var i = 1; i < winPath.Length; i++)
+        {
+            winPath[i].TurnBacklight(true);
+            winPath[i].IsBusy = true;
+            brush.AddLine(startPoint.transform.localPosition, winPath[i].transform.localPosition);
+            startPoint = winPath[i];
+        }
     }
 
     protected override void Update()
