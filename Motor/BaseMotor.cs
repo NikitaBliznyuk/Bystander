@@ -29,6 +29,7 @@ public abstract class BaseMotor : MonoBehaviour
     protected virtual void Start()
     {
         controller = gameObject.AddComponent<CharacterController>();
+        controller.radius = 0.3f;
         thisTransform = transform;
         thisTransform.position = LoadPosition();
 
