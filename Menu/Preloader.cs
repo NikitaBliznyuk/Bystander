@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class Preloader : MonoBehaviour
 {
+    public GameObject audioController;
+
     private float fadeTime = 2.0f;
     private float currentTime = 0.0f;
-
+    
     private void Update()
     {
         if (currentTime < fadeTime)
@@ -17,6 +19,7 @@ public class Preloader : MonoBehaviour
         }
         else
         {
+            Instantiate(audioController);
             SceneManager.LoadScene("Main menu");
         }
     }

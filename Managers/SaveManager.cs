@@ -6,7 +6,7 @@ public class SaveManager : MonoBehaviour {
     public BaseController[] puzzles;
     public Transform player;
 
-    private float saveDelay = 5.0f;
+    private float saveDelay = 1.0f;
     private float currentTime = 0.0f;
 
     private void Update()
