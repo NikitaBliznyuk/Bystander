@@ -18,14 +18,8 @@ public class Preloader : MonoBehaviour
 
     private IEnumerator Loading()
     {
-        var currentTime = 0.0f;
+        yield return new WaitForSeconds(fadeTime);
 
-        while(currentTime < fadeTime)
-        {
-            yield return null;
-            currentTime += Time.deltaTime;
-        }
-        
         Instantiate(audioController);
         SceneManager.LoadScene("Main menu");
 

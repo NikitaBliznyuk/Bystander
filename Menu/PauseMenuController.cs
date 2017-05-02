@@ -3,11 +3,12 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour
 {
-    private bool isEnabled = false;
+    public bool IsEnabled { private set; get; }
     private GameObject menu;
 
     private void Start()
     {
+        IsEnabled = false;
         menu = GetComponentsInChildren<RectTransform>()[1].gameObject;
     }
 
@@ -15,10 +16,16 @@ public class PauseMenuController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            isEnabled = !isEnabled;
+            IsEnabled = !IsEnabled;
         }
 
-        menu.SetActive(isEnabled);
+        menu.SetActive(IsEnabled);
+    }
+
+    public void Continue()
+    {
+        IsEnabled = false;
+        menu.SetActive(false);
     }
 
     public void Exit()
