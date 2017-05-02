@@ -11,6 +11,12 @@ public class MainMenuController : MonoBehaviour
     private GameObject settings;
     [SerializeField]
     private Slider backgroundMusic;
+    [SerializeField]
+    private Slider effects;
+    [SerializeField]
+    private Slider general;
+    [SerializeField]
+    private Toggle fullscreen;
 
     private AudioManager manager;
 
@@ -19,6 +25,9 @@ public class MainMenuController : MonoBehaviour
         manager = FindObjectOfType<AudioManager>();
 
         backgroundMusic.value = manager.BackgroundMusic;
+        effects.value = manager.SoundEffects;
+        general.value = manager.General;
+        fullscreen.isOn = Screen.fullScreen;
     }
 
     public void StartNewGame()
@@ -52,5 +61,12 @@ public class MainMenuController : MonoBehaviour
     public void ChangeMusicVolume()
     {
         manager.BackgroundMusic = backgroundMusic.value;
+        manager.SoundEffects = effects.value;
+        manager.General = general.value;
+    }
+
+    public void SetFullscreenMode(bool on)
+    {
+        Screen.fullScreen = on;
     }
 }

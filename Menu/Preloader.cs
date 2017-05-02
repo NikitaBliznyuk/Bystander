@@ -8,19 +8,27 @@ public class Preloader : MonoBehaviour
 {
     public GameObject audioController;
 
+    [SerializeField]
     private float fadeTime = 2.0f;
-    private float currentTime = 0.0f;
-    
-    private void Update()
+
+    private void Start()
     {
-        if (currentTime < fadeTime)
+        StartCoroutine(Loading());
+    }
+
+    private IEnumerator Loading()
+    {
+        var currentTime = 0.0f;
+
+        while(currentTime < fadeTime)
         {
+            yield return null;
             currentTime += Time.deltaTime;
         }
-        else
-        {
-            Instantiate(audioController);
-            SceneManager.LoadScene("Main menu");
-        }
+        
+        Instantiate(audioController);
+        SceneManager.LoadScene("Main menu");
+
+        yield return null;
     }
 }

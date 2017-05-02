@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
-    [Range(0.0f, 1.0f)]
-    public float BackgroundMusic;
+    public float BackgroundMusic { set; get; }
+    public float SoundEffects { set; get; }
+    public float General { set; get; }
 
     public AudioClip[] MenuMusic;
     public AudioClip[] GameMusic;
@@ -14,6 +15,15 @@ public class AudioManager : MonoBehaviour
     private AudioSource currentClip;
     private AudioClip[] currentPlaylist;
     private int currentIndex;
+
+    private AudioSource steps;
+
+    private void Awake()
+    {
+        BackgroundMusic = 1.0f;
+        SoundEffects = 0.1f;
+        General = 1.0f;
+    }
 
     private void Start()
     {
@@ -35,6 +45,7 @@ public class AudioManager : MonoBehaviour
                 break;
             case 2:
                 currentPlaylist = GameMusic;
+                steps = FindObjectOfType<BaseMotor>().GetComponent<AudioSource>();
                 break;
         }
 
@@ -44,12 +55,11 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        foreach(var clip in currentPlaylist)
-        {
-            currentClip.volume = BackgroundMusic;
-        }
+        currentClip.volume = BackgroundMusic * General;
+        if(steps != null)
+            steps.volume = SoundEffects * General;
 
-        if(!currentClip.isPlaying)
+        if (!currentClip.isPlaying)
         {
             currentIndex = currentIndex >= currentPlaylist.Length - 1 ? 0 : currentIndex + 1;
             currentClip.clip = currentPlaylist[currentIndex];
