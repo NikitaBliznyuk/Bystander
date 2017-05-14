@@ -1,24 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PuzzleEnabler : MonoBehaviour
+namespace Puzzle
 {
-    public BaseController PreviousPuzzle;
-    public GameObject puzzle;
-
-    private ISolved previousPuzzle;
-
-    private void Start()
+    public class PuzzleEnabler : MonoBehaviour
     {
-        previousPuzzle = PreviousPuzzle;
-    }
+        public BaseController PreviousPuzzle;
+        public GameObject Puzzle;
 
-    private void Update()
-    {
-        if (PreviousPuzzle == null || previousPuzzle.IsSolved())
+        private ISolved _previousPuzzle;
+
+        private void Start()
         {
-            puzzle.SetActive(true);
+            _previousPuzzle = PreviousPuzzle;
+        }
+
+        private void Update()
+        {
+            if (PreviousPuzzle == null || _previousPuzzle.IsSolved())
+            {
+                Puzzle.SetActive(true);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Puzzle;
 using UnityEngine;
 
 public class SaveManager : MonoBehaviour {

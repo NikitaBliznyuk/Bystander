@@ -1,25 +1,25 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public abstract class BaseController : MonoBehaviour, ISolved {
-    public string Name;
+namespace Puzzle
+{
+    public abstract class BaseController : MonoBehaviour, ISolved {
+        public string Name;
 
-    protected bool isSolved = false;
+        protected bool PuzzleSolved;
 
-    protected virtual void Load()
-    {
-        if (PlayerPrefs.HasKey(Name))
-            isSolved = PlayerPrefs.GetInt(Name) == 0 ? false : true;
-        else
-            isSolved = false;
-    }
+        protected virtual void Load()
+        {
+            if (PlayerPrefs.HasKey(Name))
+                PuzzleSolved = PlayerPrefs.GetInt(Name) != 0;
+            else
+                PuzzleSolved = false;
+        }
 
-    protected abstract void Update();
+        protected abstract void Update();
 
-    public bool IsSolved()
-    {
-        return isSolved;
+        public bool IsSolved()
+        {
+            return PuzzleSolved;
+        }
     }
 }
