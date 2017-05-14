@@ -62,7 +62,7 @@ namespace Puzzle.Line_puzzles.Maze
             }
         }
 
-        public void HandlePoint(GameObject point)
+        private void HandlePoint(GameObject point)
         {
             if (point.CompareTag("Start Point") && _currentPoint == null)
             {

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Puzzle.Line_puzzles
 {
@@ -44,13 +45,8 @@ namespace Puzzle.Line_puzzles
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 300))
-            {
-                if (hit.collider.gameObject == gameObject)
-                    return true;
-            }
-
-            return false;
+            if (!Physics.Raycast(ray, out hit, 300)) return false;
+            return hit.collider.gameObject == gameObject;
         }
 
         public bool IsNeighbour(GameObject point)
@@ -58,15 +54,9 @@ namespace Puzzle.Line_puzzles
             if (_isBusy)
                 return false;
 
-            foreach (var neighbour in Neighbours)
-            {
-                if (neighbour == point)
-                {
-                    IsBusy = true;
-                    return true;
-                }
-            }
-            return false;
+            if (Neighbours.All(neighbour => neighbour != point)) return false;
+            IsBusy = true;
+            return true;
         }
     }
 }

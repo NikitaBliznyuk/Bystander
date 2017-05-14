@@ -67,10 +67,13 @@ namespace Puzzle.Line_puzzles.Points
 			}
 		}
 
-		public void HandlePoint(GameObject point)
+		private void HandlePoint(GameObject point)
 		{
 			if (_nessesaryPoints.Any(nessesaryPoint => point.GetComponent<Point>() == nessesaryPoint))
 				_collectedPoints++;
+
+			var allPoints = GetComponentsInChildren<Point>();
+			if (!allPoints.Contains(point.GetComponent<Point>())) return;
 
 			if (point.CompareTag("Start Point") && _currentPoint == null)
 			{
